@@ -36,6 +36,8 @@ parser.add_argument('--no-model-simplification', action='store_true',
                     help="Do not perform any model selection or averaging")
 parser.add_argument('-S', '--model-selection', action='store_true',
                     help="Perform model selection instead of model averaging")
+parser.add_argument('-M', '--map-estimation', action='store_true',
+                    help="Perform MAP estimation instead of MLE")
 
 parser.add_argument('-i', '--input', type=str, required=True, help='DWI file to process')
 parser.add_argument('-b', '--bval', type=str, required=True, help='DWI b-value or bval file')
@@ -57,6 +59,9 @@ if args.hcp is True:
 if args.no_model_simplification is False:
     if args.model_selection is True:
         baseEstimationCommand += ["-M"]
+
+if args.map_estimation is True:
+    baseEstimationCommand += ["--map"]
 
 # Default model is stick
 modelNumber = 1
