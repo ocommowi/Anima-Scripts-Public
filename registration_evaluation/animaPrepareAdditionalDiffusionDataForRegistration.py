@@ -44,7 +44,7 @@ dataDir = args.data_folder
 f = open(os.path.join(dataDir, "Diffusion_Data_Preprocessed", "HCP105_Zenodo_Subjects_List.txt"), "r")
 lines = f.readlines()
 f.close()
-dataIndex = int(lines[args.index])
+dataIndex = int(lines[int(args.index)])
 
 diffDir = os.path.join(dataDir, "Diffusion_Data_Preprocessed", str(dataIndex), "Images")
 maskDir = os.path.join(dataDir, "Diffusion_Data_Preprocessed", str(dataIndex), "Masks")

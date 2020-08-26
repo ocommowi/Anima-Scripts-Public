@@ -14,7 +14,7 @@ import os
 import shutil
 from subprocess import call, check_output
 
-configFilePath = os.path.expanduser("~") + "/.anima/config.txt"
+configFilePath = os.path.join(os.path.expanduser("~"), ".anima", "config.txt")
 if not os.path.exists(configFilePath):
     print('Please create a configuration file for Anima python scripts. Refer to the README')
     quit()
@@ -52,8 +52,8 @@ dataDir = args.data_folder
 f = open(os.path.join(dataDir, "Diffusion_Data_Preprocessed", "HCP105_Zenodo_Subjects_List.txt"), "r")
 lines = f.readlines()
 f.close()
-refIndex = int(lines[args.ref_index])
-movIndex = int(lines[args.mov_index])
+refIndex = int(lines[int(args.ref_index)])
+movIndex = int(lines[int(args.mov_index)])
 
 # First runs 8 registration schemes with all possible combinations
 # P1: affine registration
