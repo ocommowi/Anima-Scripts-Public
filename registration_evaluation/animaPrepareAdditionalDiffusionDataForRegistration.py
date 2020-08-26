@@ -49,6 +49,12 @@ dataIndex = int(lines[int(args.index)])
 diffDir = os.path.join(dataDir, "Diffusion_Data_Preprocessed", str(dataIndex), "Images")
 maskDir = os.path.join(dataDir, "Diffusion_Data_Preprocessed", str(dataIndex), "Masks")
 
+# Estimate tensors
+
+command = [animaDTIEstimator, "-i", os.path.join(diffDir, "data.nii.gz"), "-b", os.path.join(diffDir, "data.bval"),
+           "-g", os.path.join(diffDir, "data.bvec"), "-m", os.path.join(maskDir, "nodif_brain_mask.nii.gz"), "-o", os.path.join(diffDir, "data_Tensors.nrrd")]
+call(command)
+
 # Estimate tensor DCM (with model averaging)
 
 command = [pythonExecutable, animaMCMEstimationScript, "-i", os.path.join(diffDir, "data.nii.gz"), "-b", os.path.join(diffDir, "data.bval"),
@@ -57,15 +63,8 @@ call(command)
 
 # Remove unused files
 
-for f in glob.glob(os.path.join(diffDir, "data*aic*.nrrd")) + glob.glob(os.path.join(diffDir, "data*B0*.nrrd")) + glob.glob(os.path.join(diffDir, "data*S2*.nrrd")) \
-        + glob.glob(os.path.join(diffDir, "*List.txt")) + glob.glob(os.path.join(diffDir, "data_MCM_N*")):
+for f in glob.glob(os.path.join(diffDir, "data_MCM_avg_*.nrrd")) + glob.glob(os.path.join(diffDir, "*List.txt")) + glob.glob(os.path.join(diffDir, "data_MCM_N*")):
     if os.path.isdir(f):
         shutil.rmtree(f)
     else:
         os.remove(f)
-
-# Estimate tensors
-
-command = [animaDTIEstimator, "-i", os.path.join(diffDir, "data.nii.gz"), "-b", os.path.join(diffDir, "data.bval"),
-           "-g", os.path.join(diffDir, "data.bvec"), "-m", os.path.join(maskDir, "nodif_brain_mask.nii.gz"), "-o", os.path.join(diffDir, "data_Tensors.nrrd")]
-call(command)
