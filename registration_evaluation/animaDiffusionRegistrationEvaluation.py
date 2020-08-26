@@ -23,7 +23,6 @@ configParser = ConfParser.RawConfigParser()
 configParser.read(configFilePath)
 
 animaDir = configParser.get("anima-scripts", 'anima')
-animaScriptsDir = configParser.get("anima-scripts", 'anima-scripts-public-root')
 
 # Argument parsing
 parser = argparse.ArgumentParser(
@@ -83,12 +82,12 @@ call(command)
 command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movingAnat_aff_tr.txt"), "-o", os.path.join(tmpFolder, "movingAnat_aff_tr.xml")]
 call(command)
 
-command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "Tensors.nrrd"), "-t", os.path.join(tmpFolder, "movingAnat_aff_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingTensors_aff_init.nrrd")]
+command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_Tensors.nrrd"), "-t", os.path.join(tmpFolder, "movingAnat_aff_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingTensors_aff_init.nrrd")]
 call(command)
 
-command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_aff_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingMCM_aff_init.mcm")]
+command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_aff_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingMCM_aff_init.mcm")]
 call(command)
 
 # Moving to non linear anatomical registration (P2 and base for P5+ except P7)
@@ -102,17 +101,17 @@ command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movin
            "-o", os.path.join(tmpFolder, "movingAnat_nl_tr.xml")]
 call(command)
 
-command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "Tensors.nrrd"), "-t", os.path.join(tmpFolder, "movingAnat_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensors_nl_init.nrrd")]
+command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_Tensors.nrrd"), "-t", os.path.join(tmpFolder, "movingAnat_nl_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensors_nl_init.nrrd")]
 call(command)
 
-command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl_init.mcm")]
+command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_nl_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl_init.mcm")]
 call(command)
 
 # Non linear tensor registration (P3 and base for P7)
 
-command = [animaDenseTensorSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"),
+command = [animaDenseTensorSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"),
            "-m", os.path.join(tmpFolder, "movingTensors_aff_init.nrrd"), "-o", os.path.join(tmpFolder, "movingTensors_nl.nrrd"),
            "-O", os.path.join(tmpFolder, "movingTensors_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "3", "-s", "0.001"]
 call(command)
@@ -121,13 +120,13 @@ command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movin
            "-o", os.path.join(tmpFolder, "movingTensors_nl_tr.xml")]
 call(command)
 
-command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingTensors_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingTensorsMCM_nl_init.mcm")]
+command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingTensors_nl_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingTensorsMCM_nl_init.mcm")]
 call(command)
 
 # Non linear MCM registration (P4)
 
-command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"),
+command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"),
            "-m", os.path.join(tmpFolder, "movingMCM_aff_init.mcm"), "-o", os.path.join(tmpFolder, "movingMCM_nl.mcm"),
            "-O", os.path.join(tmpFolder, "movingMCM_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "2", "-s", "0.001"]
 call(command)
@@ -138,7 +137,7 @@ call(command)
 
 # Non linear tensor registration after anatomical registration (P5)
 
-command = [animaDenseTensorSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"),
+command = [animaDenseTensorSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"),
            "-m", os.path.join(tmpFolder, "movingAnatTensors_nl_init.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensors_nl.nrrd"),
            "-O", os.path.join(tmpFolder, "movingAnatTensors_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "3", "-s", "0.001", "--sr", "1"]
 call(command)
@@ -147,13 +146,13 @@ command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movin
            "-i", os.path.join(tmpFolder, "movingAnatTensors_nl.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensors_nl_tr.xml")]
 call(command)
 
-command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnatTensors_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm")]
+command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnatTensors_nl_tr.xml"),
+           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm")]
 call(command)
 
 # Non linear MCM registration after tensor registration alone (P7)
 
-command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"),
+command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"),
            "-m", os.path.join(tmpFolder, "movingTensorsMCM_nl_init.mcm"), "-o", os.path.join(tmpFolder, "movingTensorsMCM_nl.mcm"),
            "-O", os.path.join(tmpFolder, "movingTensorsMCM_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "2", "-s", "0.001", "--sr", "1"]
 call(command)
@@ -164,7 +163,7 @@ call(command)
 
 # Non linear MCM registration after anatomical + tensors registration (P8)
 
-command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "MCM_avg.mcm"),
+command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"),
            "-m", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl.mcm"),
            "-O", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "2", "-s", "0.001", "--sr", "1"]
 call(command)
@@ -199,7 +198,7 @@ if os.path.exists(resultsDir):
 os.mkdir('Results_' + str(refIndex) + '_' + str(movIndex))
 
 for track in tracksList:
-    command = [animaFibersCounter, "-i", os.path.join(refDiffusionDir, 'Tracks', track + '.vtp'), "-g", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"),
+    command = [animaFibersCounter, "-i", os.path.join(refDiffusionDir, 'Tracks', track + '.vtp'), "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"),
                "-o", os.path.join(tmpFolder, track + "_ref_fCount.nrrd"), "-P"]
     call(command)
 
@@ -223,7 +222,7 @@ for transform in transformsList:
                    "-t", os.path.join(tmpFolder, transform + '_tr.xml'), "-o", os.path.join(tmpFolder, track + '_' + transform + '.vtp')]
         call(command)
 
-        command = [animaFibersCounter, "-i", os.path.join(tmpFolder, track + '_' + transform + '.vtp'), "-g", os.path.join(refDiffusionDir, "Images", "Tensors.nrrd"),
+        command = [animaFibersCounter, "-i", os.path.join(tmpFolder, track + '_' + transform + '.vtp'), "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"),
                    "-o", os.path.join(resultsDir, track + '_' + transform + "_fCount.nrrd"), "-P"]
         call(command)
 
