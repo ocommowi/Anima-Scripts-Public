@@ -87,7 +87,7 @@ command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "
 call(command)
 
 command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_aff_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingMCM_aff_init.mcm")]
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingMCM_aff_init.mcm")]
 call(command)
 
 # Moving to non linear anatomical registration (P2 and base for P5+ except P7)
@@ -106,7 +106,7 @@ command = [animaTensorApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "
 call(command)
 
 command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnat_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl_init.mcm")]
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl_init.mcm")]
 call(command)
 
 # Non linear tensor registration (P3 and base for P7)
@@ -121,7 +121,7 @@ command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movin
 call(command)
 
 command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingTensors_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingTensorsMCM_nl_init.mcm")]
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingTensorsMCM_nl_init.mcm")]
 call(command)
 
 # Non linear MCM registration (P4)
@@ -147,7 +147,7 @@ command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movin
 call(command)
 
 command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Images", "data_MCM_avg.mcm"), "-t", os.path.join(tmpFolder, "movingAnatTensors_nl_tr.xml"),
-           "-g", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm")]
+           "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm")]
 call(command)
 
 # Non linear MCM registration after tensor registration alone (P7)
