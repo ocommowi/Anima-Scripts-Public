@@ -191,7 +191,7 @@ tracksList = ['AF_left', 'AF_right', 'ATR_left', 'ATR_right', 'CA', 'CC_1', 'CC_
 
 transformsList = ['movingAnat_aff', 'movingAnat_nl', 'movingTensors_nl', 'movingMCM_nl', 'movingAnatTensors_nl', 'movingAnatMCM_nl', 'movingTensorsMCM_nl', 'movingAnatTensorsMCM_nl']
 
-resultsDir = os.path.join(dataDir, 'Results_' + str(refIndex) + '_' + str(movIndex))
+resultsDir = os.path.join(dataDir, 'Results', 'Results_' + str(refIndex) + '_' + str(movIndex))
 if os.path.exists(resultsDir):
     shutil.rmtree(resultsDir)
 
