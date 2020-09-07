@@ -76,7 +76,7 @@ resultsDir = os.path.join(dataDir, 'Results', 'Results_' + str(refIndex) + '_' +
 if os.path.exists(resultsDir):
     shutil.rmtree(resultsDir)
 
-os.makedirs(resultsDir, exists_ok=True)
+os.makedirs(resultsDir, exist_ok=True)
 
 command = [animaPyramidalBMRegistration, "-r", os.path.join(refStructuralDir, "Images", "T1w_acpc_dc_restore_brain.nii.gz"),
            "-m", os.path.join(movStructuralDir, "Images", "T1w_acpc_dc_restore_brain.nii.gz"), "-o", os.path.join(tmpFolder, "movingAnat_aff.nrrd"),
