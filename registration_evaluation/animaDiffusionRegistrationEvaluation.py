@@ -156,6 +156,17 @@ command = [animaMCMApplyTransformSerie, "-i", os.path.join(movDiffusionDir, "Ima
            "-g", os.path.join(refDiffusionDir, "Images", "data_Tensors.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatTensorsMCM_nl_init.mcm")]
 call(command)
 
+# Non linear MCM registration after anatomical registration (P6)
+
+command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"),
+           "-m", os.path.join(tmpFolder, "movingAnatMCM_nl_init.mcm"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl.mcm"),
+           "-O", os.path.join(tmpFolder, "movingAnatMCM_nl_tr.nrrd"), "--sym-reg", "2", "--metric", "2", "-s", "0.001", "--sr", "1"]
+call(command)
+
+command = [animaTransformSerieXmlGenerator, "-i", os.path.join(tmpFolder, "movingAnat_aff_tr.txt"), "-i", os.path.join(tmpFolder, "movingAnat_nl_tr.nrrd"),
+           "-i", os.path.join(tmpFolder, "movingAnatMCM_nl_tr.nrrd"), "-o", os.path.join(tmpFolder, "movingAnatMCM_nl_tr.xml")]
+call(command)
+
 # Non linear MCM registration after tensor registration alone (P7)
 
 command = [animaDenseMCMSVFBMRegistration, "-r", os.path.join(refDiffusionDir, "Images", "data_MCM_avg.mcm"),
@@ -216,7 +227,7 @@ for transform in transformsList:
                "-o", os.path.join(resultsDir, transform + "_parcellation_total_overlap.csv"), "-X", "-T"]
     call(command)
 
-    outFileTracks = open(os.path.join(resultsDir, transform + "_tracks_fuzzy_dice.csv"),'w')
+    outFileTracks = open(os.path.join(resultsDir, transform + "_tracks_fuzzy_dice.csv"), 'w')
     for track in tracksList:
         command = [animaFibersApplyTransformSerie, "-i", os.path.join(movDiffusionDir, 'Tracks', track + '.vtp'),
                    "-t", os.path.join(tmpFolder, transform + '_tr.xml'), "-o", os.path.join(tmpFolder, track + '_' + transform + '.vtp')]
